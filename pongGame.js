@@ -23,7 +23,7 @@ var wPressed = false;
 var sPressed = false;
 var upPressed = false;
 var downPressed = false;
-var intervalId = 0;
+var intervalId;
 var hitPaddleSound = new Audio("hitPaddle.wav");
 var hitWallSound = new Audio("hitWall.wav");
 var missSound = new Audio("miss.wav");
@@ -58,6 +58,7 @@ function init() {
 	scoreRight = 0;
 	scoreTimer = -1;
 	//refresh canvas every 10 milliseconds
+	clearInterval(intervalId);
 	intervalId = setInterval(draw, 10);
 };
 
@@ -173,6 +174,8 @@ function draw() {
 	if ((ballX > paddleLeftX && ballX < paddleLeftX + paddleWidth) && (ballY > paddleLeftY && ballY < paddleLeftY + paddleHeight)) {
 		//bounce off
 		ballDirectionX = -ballDirectionX;
+		//make it go in a different direction depending on where it hit the paddle
+		ballDirectionY = 8 * ((ballY - (paddleLeftY + paddleHeight / 2)) / paddleHeight);
 		//play sound
 		hitPaddleSound.play();
 	};
@@ -180,6 +183,8 @@ function draw() {
 	if ((ballX > paddleRightX && ballX < paddleRightX + paddleWidth) && (ballY > paddleRightY && ballY < paddleRightY + paddleHeight)) {
 		//bounce off
 		ballDirectionX = -ballDirectionX;
+		//make it go in a different direction depending on where it hit the paddle
+		ballDirectionY = 8 * ((ballY - (paddleRightY + paddleHeight / 2)) / paddleHeight);
 		//play sound
 		hitPaddleSound.play();
 	};
